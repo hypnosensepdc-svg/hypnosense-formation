@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contrat de Formation — Hypnosense Formation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --cyan: #38C6E8; --navy: #1A2B7A; --navy-deep: #0F1A4E;
+    --white: #FFFFFF; --off-white: #F7FAFC; --grey-light: #E8EDF5;
+    --grey-text: #6B7A99; --cyan-light: rgba(56,198,232,0.10);
+    --cyan-mid: rgba(56,198,232,0.30); --error: #E53E3E; --success: #38A169;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--off-white); color: var(--navy); padding-bottom: 60px; }
+  header { background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 100%); padding: 36px 24px 40px; text-align: center; }
+  .header-badge { display: inline-block; background: var(--cyan-light); border: 1px solid var(--cyan-mid); color: var(--cyan); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px,4vw,36px); font-weight: 300; color: #fff; margin-bottom: 8px; }
+  header h1 span { color: var(--cyan); font-style: italic; }
+  header p { color: rgba(255,255,255,0.65); font-size: 13px; }
+  .container { max-width: 700px; margin: 0 auto; padding: 0 20px; }
+  .card { background: #fff; border-radius: 16px; border: 1px solid var(--grey-light); padding: 28px; margin-top: 24px; box-shadow: 0 2px 12px rgba(26,43,122,0.06); }
+  .card-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .card-subtitle { font-size: 12px; color: var(--grey-text); margin-bottom: 20px; }
+  .recap-box { background: var(--cyan-light); border: 1.5px solid var(--cyan-mid); border-radius: 10px; padding: 16px 20px; margin-bottom: 6px; }
+  .recap-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 13px; }
+  .recap-label { color: var(--grey-text); }
+  .recap-val { font-weight: 600; color: var(--navy); }
+  .recap-val.price { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--cyan); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .field-row.single { grid-template-columns: 1fr; }
+  @media(max-width:520px){ .field-row { grid-template-columns: 1fr; } }
+  .field label { display: block; font-size: 11px; font-weight: 600; color: var(--navy); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 5px; }
+  .field label .req { color: var(--cyan); }
+  .field input { width: 100%; padding: 10px 13px; border: 1.5px solid var(--grey-light); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--navy); background: var(--off-white); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+  .field input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(56,198,232,0.15); background: #fff; }
+  .cgv-box { background: var(--off-white); border: 1px solid var(--grey-light); border-radius: 10px; padding: 18px; max-height: 240px; overflow-y: auto; font-size: 11.5px; line-height: 1.7; color: #4A5568; margin-bottom: 14px; }
+  .cgv-box h3 { font-size: 12px; font-weight: 600; color: var(--navy); margin: 12px 0 4px; }
+  .cgv-box h3:first-child { margin-top: 0; }
+  .cgv-box::-webkit-scrollbar { width: 4px; }
+  .cgv-box::-webkit-scrollbar-thumb { background: var(--cyan-mid); border-radius: 3px; }
+  .check-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-top: 1px solid var(--grey-light); }
+  .check-row input[type=checkbox] { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; accent-color: var(--cyan); cursor: pointer; }
+  .check-row label { font-size: 13px; color: var(--navy); cursor: pointer; line-height: 1.5; }
+  .btn-submit { width: 100%; background: linear-gradient(135deg, var(--cyan) 0%, #1A9AB8 100%); color: #fff; border: none; border-radius: 10px; padding: 15px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 18px; }
+  .btn-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(56,198,232,0.3); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .msg { display: none; border-radius: 10px; padding: 14px 18px; font-size: 13px; margin-top: 14px; line-height: 1.5; }
+  .msg.error { background: #FFF5F5; border: 1px solid #FED7D7; color: var(--error); }
+  .msg.success { background: #F0FFF4; border: 1px solid #C6F6D5; color: var(--success); }
+  .msg.visible { display: block; }
+  .info-note { background: var(--cyan-light); border: 1px solid var(--cyan-mid); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--navy); line-height: 1.6; margin-top: 14px; }
+  footer { text-align: center; padding: 28px 20px 0; font-size: 11px; color: var(--grey-text); }
+  footer a { color: var(--cyan); text-decoration: none; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.7); font-size: 13px; text-decoration: none; margin-bottom: 20px; transition: color 0.2s; }
+  .back-link:hover { color: #fff; }
+</style>
+</head>
+<body>
+<header>
+  <div class="container" style="text-align:left">
+    <a href="javascript:history.back()" class="back-link">← Retour à la formation</a>
+  </div>
+  <div class="header-badge">Hypnosense Formation</div>
+  <h1>Contrat de <span>Formation Professionnelle</span></h1>
+  <p>Devenez Hypnothérapeute — Méthode Richard Fontenay</p>
+</header>
+
+<div class="container">
+
+  <!-- RECAP -->
+  <div class="card">
+    <div class="card-title">Récapitulatif de votre choix</div>
+    <div class="card-subtitle">Vérifiez avant de remplir vos coordonnées</div>
+    <div class="recap-box">
+      <div class="recap-row"><span class="recap-label">Formule</span><span class="recap-val" id="r-offre">—</span></div>
+      <div class="recap-row"><span class="recap-label">Session</span><span class="recap-val" id="r-session">—</span></div>
+      <div class="recap-row"><span class="recap-label">Paiement</span><span class="recap-val" id="r-paiement">—</span></div>
+      <div class="recap-row"><span class="recap-label">Montant total</span><span class="recap-val price" id="r-prix">—</span></div>
+    </div>
+  </div>
+
+  <!-- COORDONNÉES -->
+  <div class="card">
+    <div class="card-title">Vos coordonnées</div>
+    <div class="card-subtitle">Ces informations figureront sur votre contrat</div>
+    <div class="field-row">
+      <div class="field"><label>Prénom <span class="req">*</span></label><input type="text" id="prenom" placeholder="Prénom"></div>
+      <div class="field"><label>Nom <span class="req">*</span></label><input type="text" id="nom" placeholder="Nom"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Email <span class="req">*</span></label><input type="email" id="email" placeholder="votre@email.fr"></div>
+      <div class="field"><label>Téléphone <span class="req">*</span></label><input type="tel" id="telephone" placeholder="06 XX XX XX XX"></div>
+    </div>
+    <div class="field-row single">
+      <div class="field"><label>Adresse complète <span class="req">*</span></label><input type="text" id="adresse" placeholder="Numéro, rue, code postal, ville"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Date de naissance <span class="req">*</span></label><input type="date" id="naissance"></div>
+      <div class="field"><label>Profession actuelle</label><input type="text" id="profession" placeholder="Votre profession"></div>
+    </div>
+  </div>
+
+  <!-- CGV -->
+  <div class="card">
+    <div class="card-title">Conditions Générales de Vente</div>
+    <div class="card-subtitle">Veuillez lire attentivement avant de valider</div>
+    <div class="cgv-box">
+      <h3>Article 1 — Objet</h3>
+      <p>Les présentes CGV régissent les relations contractuelles entre Richard Fontenay, exerçant sous l'enseigne Hypnosense Formation, et toute personne souhaitant s'inscrire à la formation en Hypnose Méthode Richard Fontenay.</p>
+      <h3>Article 2 — Prestataire</h3>
+      <p>Richard Fontenay – Hypnosense | SIRET : 822 581 161 00012<br>2 rue du Paradis, 62290 Noeux-les-Mines | hypnosensepdc@gmail.com</p>
+      <h3>Article 3 — Description de la formation</h3>
+      <p><strong>M1 — Création d'activité</strong> (2 jours — 400 €) : accompagnement à la création d'une activité d'hypnothérapeute.<br>
+      <strong>M2 — Technicien en Hypnose</strong> (8 jours — 1 200 €) : fondamentaux et techniques. Certification délivrée à l'issue.<br>
+      <strong>M3 — Praticien en Hypnose</strong> (10 jours — 1 500 €) : approfondissement et protocoles. Certification délivrée à l'issue.<br>
+      <strong>Pack Certifiant M2+M3</strong> : 2 500 € | <strong>Pack Complet M1+M2+M3</strong> : 2 800 €</p>
+      <h3>Article 4 — Calendrier</h3>
+      <p>Sessions : Septembre 2026, Janvier 2027, Avril 2027. Tenues quel que soit le nombre de participants.</p>
+      <h3>Article 5 — Paiement</h3>
+      <p>Paiement intégral exigé avant le 1er jour. Stripe (comptant, 3×, 6×, 10×), virement, Wero ou chèques échelonnés acceptés.</p>
+      <h3>Article 6 — Droit de rétractation</h3>
+      <p>14 jours calendaires à compter de la signature (art. L.221-18 Code de la consommation).</p>
+      <h3>Article 7 — Annulation</h3>
+      <p>&gt;30j : remboursement intégral ou report. 15–30j : 50% ou report. &lt;15j : aucun remboursement.</p>
+      <h3>Article 8 — Propriété intellectuelle</h3>
+      <p>Supports protégés par le droit d'auteur. Reproduction interdite sans autorisation écrite.</p>
+      <h3>Article 9 — Données personnelles</h3>
+      <p>Données traitées conformément au RGPD. Non transmises à des tiers. Contact : hypnosensepdc@gmail.com.</p>
+      <h3>Article 10 — Loi applicable</h3>
+      <p>Droit français. Juridiction compétente : Arras.</p>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="cgv-ok">
+      <label for="cgv-ok">J'ai lu et j'accepte les Conditions Générales de Vente. <span style="color:var(--cyan)">*</span></label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="info-ok">
+      <label for="info-ok">Je certifie que les informations fournies sont exactes et complètes. <span style="color:var(--cyan)">*</span></label>
+    </div>
+    <div id="msg-error" class="msg error"></div>
+    <button class="btn-submit" id="btn-submit" onclick="valider()">Valider et procéder au paiement →</button>
+    <div class="info-note">Après validation, votre contrat PDF vous sera envoyé par email. Vous serez ensuite redirigé vers la page de paiement sécurisé Stripe.</div>
+  </div>
+</div>
+
+<footer>
+  <p>Richard Fontenay – Hypnosense | <a href="mailto:hypnosensepdc@gmail.com">hypnosensepdc@gmail.com</a> | 06 49 80 37 27</p>
+  <p style="margin-top:5px">2 rue du Paradis, 62290 Noeux-les-Mines | SIRET : 822 581 161 00012</p>
+</footer>
+
+<script>
+const BREVO_KEY = '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';
+
+// Table des liens Stripe : offre → paiement → url
+const STRIPE = {
+  'm1':              { 'comptant': 'https://buy.stripe.com/cNifZj5A96qu58GggjfQI0b', '3x': 'https://buy.stripe.com/9B68wR9Qp8yCgRo3txfQI0g' },
+  'm2':              { 'comptant': 'https://buy.stripe.com/9B614pd2BdSW58G1lpfQI0c', '3x': 'https://buy.stripe.com/fZu6oJ1jT16acB85BFfQI0h', '6x': 'https://buy.stripe.com/aFafZj6EdaGK44C9RVfQI0l' },
+  'm3':              { 'comptant': 'https://buy.stripe.com/fZufZj7IhdSWdFcggjfQI0d', '3x': 'https://buy.stripe.com/4gMcN75A93ei9oW1lpfQI0i', '6x': 'https://buy.stripe.com/4gM6oJ8Ml6qu7gO3txfQI0m' },
+  'pack-certifiant': { 'comptant': 'https://buy.stripe.com/4gMeVf7Ih8yC0Sq4xBfQI0e', '3x': 'https://buy.stripe.com/eVq14paUtg148kSe8bfQI0j', '6x': 'https://buy.stripe.com/cNi5kFbYxcOS0Sq1lpfQI0n', '10x': 'https://buy.stripe.com/3cI5kF6EdcOS6cK9RVfQI0p' },
+  'pack-complet':    { 'comptant': 'https://buy.stripe.com/8x2cN78MlcOS0Sq8NRfQI0f', '3x': 'https://buy.stripe.com/28E7sN3s16qu9oWd47fQI0k', '6x': 'https://buy.stripe.com/7sY00l0fP6qu6cK5BFfQI0o', '10x': 'https://buy.stripe.com/5kQ28taUtdSW7gO9RVfQI0q' }
+};
+
+const OFFRE_DATA = {
+  'm1':              { label: 'Module M1 — Création d\'activité', prix: '400 €', duree: '2 jours' },
+  'm2':              { label: 'Module M2 — Technicien en Hypnose', prix: '1 200 €', duree: '8 jours' },
+  'm3':              { label: 'Module M3 — Praticien en Hypnose', prix: '1 500 €', duree: '10 jours' },
+  'pack-certifiant': { label: 'Pack Certifiant (M2+M3)', prix: '2 500 €', duree: '18 jours' },
+  'pack-complet':    { label: 'Pack Complet (M1+M2+M3)', prix: '2 800 €', duree: '20 jours' }
+};
+
+const PAIEMENT_KEYS = {
+  'stripe': 'comptant', '3x': '3x', '6x': '6x', '10x': '10x',
+  'virement': 'comptant', 'wero': 'comptant', 'cheques': 'comptant'
+};
+
+const PAIEMENT_LABELS = {
+  'stripe': 'Comptant (Stripe)', '3x': '3× sans frais (Stripe)', '6x': '6× sans frais (Stripe)',
+  '10x': '10× sans frais (Stripe)', 'virement': 'Virement bancaire', 'wero': 'Wero', 'cheques': 'Chèques échelonnés'
+};
+
+const SESSION_LABELS = {
+  'sept2026': 'Septembre 2026 (7 sept – 2 oct)',
+  'jan2027': 'Janvier 2027 (11 jan – 5 fév)',
+  'avr2027': 'Avril 2027 (5 avr – 30 avr)'
+};
+
+// Lire les paramètres URL
+const params = new URLSearchParams(window.location.search);
+const offreKey = params.get('offre') || '';
+const sessionKey = params.get('session') || '';
+const paiementKey = params.get('paiement') || '';
+
+const offreData = OFFRE_DATA[offreKey] || {};
+const paiementLabel = PAIEMENT_LABELS[paiementKey] || paiementKey;
+const sessionLabel = SESSION_LABELS[sessionKey] || sessionKey;
+
+// Afficher le récap
+document.getElementById('r-offre').textContent = offreData.label || '—';
+document.getElementById('r-session').textContent = sessionLabel || '—';
+document.getElementById('r-paiement').textContent = paiementLabel || '—';
+document.getElementById('r-prix').textContent = offreData.prix || '—';
+
+function getStripeUrl() {
+  const stripeKey = PAIEMENT_KEYS[paiementKey] || 'comptant';
+  const offre = STRIPE[offreKey];
+  if (!offre) return null;
+  // Fallback : si la combinaison n'existe pas, prendre comptant
+  return offre[stripeKey] || offre['comptant'] || null;
+}
+
+function genPDF(data) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const W = 210, mL = 20, mR = 20, lW = W - mL - mR;
+  let y = 0;
+  const navy = [26,43,122], cyan = [56,198,232], grey = [107,122,153], dark = [30,30,30];
+
+  // Header
+  doc.setFillColor(...navy);
+  doc.rect(0, 0, W, 38, 'F');
+  doc.setTextColor(255,255,255);
+  doc.setFont('helvetica','bold'); doc.setFontSize(16);
+  doc.text('CONTRAT DE FORMATION PROFESSIONNELLE', W/2, 14, {align:'center'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...cyan);
+  doc.text('Devenez Hypnothérapeute — Méthode Richard Fontenay', W/2, 23, {align:'center'});
+  doc.setTextColor(180,210,240); doc.setFontSize(8);
+  doc.text('Hypnosense Formation | hypnosense.fr', W/2, 31, {align:'center'});
+  y = 48;
+
+  function section(t) {
+    doc.setFillColor(...navy); doc.rect(mL, y, lW, 6.5, 'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(8.5);
+    doc.text(t.toUpperCase(), mL+3, y+4.5); y += 10;
+  }
+  function ligne(label, val) {
+    doc.setTextColor(...grey); doc.setFont('helvetica','normal'); doc.setFontSize(8.5);
+    doc.text(label, mL, y);
+    doc.setTextColor(...dark); doc.setFont('helvetica','bold');
+    doc.text(val || '—', mL+55, y); y += 5.5;
+  }
+
+  section('Informations du stagiaire');
+  ligne('Nom complet :', `${data.prenom} ${data.nom}`);
+  ligne('Date de naissance :', data.naissance);
+  ligne('Adresse :', data.adresse);
+  ligne('Email :', data.email);
+  ligne('Téléphone :', data.telephone);
+  if (data.profession) ligne('Profession :', data.profession);
+  y += 3;
+
+  section('Formation souscrite');
+  ligne('Formule :', offreData.label || '—');
+  ligne('Durée :', offreData.duree || '—');
+  ligne('Montant total :', offreData.prix || '—');
+  ligne('Session :', sessionLabel);
+  ligne('Modalité de paiement :', paiementLabel);
+  ligne('Date d\'inscription :', data.dateInscription);
+  y += 3;
+
+  section('Prestataire');
+  ligne('Nom :', 'Richard Fontenay – Hypnosense');
+  ligne('SIRET :', '822 581 161 00012');
+  ligne('Adresse :', '2 rue du Paradis, 62290 Noeux-les-Mines');
+  ligne('Email :', 'hypnosensepdc@gmail.com');
+  y += 3;
+
+  section('Conditions Générales de Vente — Résumé');
+  const cgv = [
+    'Art.1 : Ces CGV régissent la relation entre Hypnosense Formation et le stagiaire.',
+    'Art.2 : Prestataire : Richard Fontenay, SIRET 822 581 161 00012, Noeux-les-Mines.',
+    'Art.3 : M1 (400€/2j), M2 Technicien (1200€/8j), M3 Praticien (1500€/10j). Packs disponibles.',
+    'Art.4 : Sessions sept. 2026, jan. 2027, avr. 2027. Tenues quel que soit le nombre de participants.',
+    'Art.5 : Paiement intégral avant J1. Stripe, virement, Wero, chèques échelonnés acceptés.',
+    'Art.6 : Droit de rétractation 14 jours à compter de la signature (art. L.221-18 Code conso.).',
+    'Art.7 : Annulation >30j : remboursement intégral. 15-30j : 50%. <15j : aucun remboursement.',
+    'Art.8 : Supports pédagogiques protégés par le droit d\'auteur. Reproduction interdite.',
+    'Art.9 : Données RGPD, non transmises à des tiers. Contact : hypnosensepdc@gmail.com.',
+    'Art.10 : Droit français. Juridiction : Arras.',
+  ];
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.8);
+  cgv.forEach(line => {
+    doc.setTextColor(...grey);
+    doc.splitTextToSize(line, lW).forEach(l => { doc.text(l, mL, y); y += 4.2; });
+  });
+  y += 5;
+
+  // Signatures
+  if (y > 240) { doc.addPage(); y = 20; }
+  section('Signatures');
+  y += 3;
+  doc.setTextColor(...navy); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+  doc.text('Le Stagiaire', mL, y);
+  doc.text('Le Prestataire', W/2+10, y);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...grey);
+  doc.text(`${data.prenom} ${data.nom}`, mL, y+5);
+  doc.text(`Signé électroniquement le ${data.dateInscription}`, mL, y+10);
+  doc.text('Lu et approuvé — CGV acceptées', mL, y+15);
+  doc.text('Richard Fontenay – Hypnosense', W/2+10, y+5);
+  doc.text(`Signé électroniquement le ${data.dateInscription}`, W/2+10, y+10);
+  // Signature stylisée en italique
+  doc.setFont('times','italic'); doc.setFontSize(16); doc.setTextColor(...navy);
+  doc.text('Richard Fontenay', W/2+10, y+22);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...grey);
+  doc.text('Hypnosense Formation', W/2+10, y+27);
+
+  // Footer
+  doc.setFillColor(...navy); doc.rect(0, 283, W, 14, 'F');
+  doc.setTextColor(180,210,240); doc.setFont('helvetica','normal'); doc.setFontSize(7);
+  doc.text('Richard Fontenay – Hypnosense | 2 rue du Paradis, 62290 Noeux-les-Mines | hypnosensepdc@gmail.com | SIRET : 822 581 161 00012', W/2, 291, {align:'center'});
+
+  return doc.output('datauristring').split(',')[1];
+}
+
+function showErr(msg) {
+  const el = document.getElementById('msg-error');
+  el.textContent = msg; el.classList.add('visible');
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function hideErr() { document.getElementById('msg-error').classList.remove('visible'); }
+
+async function valider() {
+  hideErr();
+  const prenom = document.getElementById('prenom').value.trim();
+  const nom = document.getElementById('nom').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const telephone = document.getElementById('telephone').value.trim();
+  const adresse = document.getElementById('adresse').value.trim();
+  const naissance = document.getElementById('naissance').value;
+  const profession = document.getElementById('profession').value.trim();
+
+  if (!prenom || !nom || !email || !telephone || !adresse || !naissance)
+    return showErr('Merci de remplir tous les champs obligatoires.');
+  if (!document.getElementById('cgv-ok').checked)
+    return showErr('Vous devez accepter les Conditions Générales de Vente.');
+  if (!document.getElementById('info-ok').checked)
+    return showErr('Veuillez certifier l\'exactitude de vos informations.');
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true; btn.textContent = 'Génération du contrat…';
+
+  const dateInscription = new Date().toLocaleDateString('fr-FR');
+  const data = { prenom, nom, email, telephone, adresse, naissance, profession, dateInscription };
+  const pdfBase64 = genPDF(data);
+
+  btn.textContent = 'Envoi du contrat par email…';
+
+  const bodyStag = `Bonjour ${prenom},
+
+Votre inscription à la formation Devenez Hypnothérapeute est enregistrée.
+
+Récapitulatif :
+• Formule : ${offreData.label || '—'}
+• Session : ${sessionLabel}
+• Paiement : ${paiementLabel}
+• Montant : ${offreData.prix || '—'}
+
+Votre contrat de formation est joint à cet email en PDF.
+
+Cordialement,
+Richard Fontenay – Hypnosense
+hypnosensepdc@gmail.com | 06 49 80 37 27 | hypnosense.fr`;
+
+  const bodyRich = `Nouvelle inscription :
+
+Stagiaire : ${prenom} ${nom}
+Email : ${email} | Tél : ${telephone}
+Adresse : ${adresse} | Né(e) le : ${naissance}
+Profession : ${profession || '—'}
+Formule : ${offreData.label} — ${offreData.prix}
+Session : ${sessionLabel}
+Paiement : ${paiementLabel}
+Date : ${dateInscription}`;
+
+  try {
+    // Email stagiaire avec contrat PDF
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'api-key': BREVO_KEY },
+      body: JSON.stringify({
+        sender: { name: 'Richard Fontenay – Hypnosense', email: 'hypnosensepdc@gmail.com' },
+        to: [{ email, name: `${prenom} ${nom}` }],
+        subject: `Votre contrat de formation — ${offreData.label} · ${sessionLabel}`,
+        textContent: bodyStag,
+        attachment: [{ content: pdfBase64, name: `Contrat_Hypnosense_${nom}_${prenom}.pdf` }]
+      })
+    });
+
+    // Notification Richard avec contrat PDF
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'api-key': BREVO_KEY },
+      body: JSON.stringify({
+        sender: { name: 'Formulaire Hypnosense', email: 'hypnosensepdc@gmail.com' },
+        to: [{ email: 'hypnosensepdc@gmail.com', name: 'Richard Fontenay' }],
+        subject: `Nouvelle inscription : ${prenom} ${nom} — ${offreData.label}`,
+        textContent: bodyRich,
+        attachment: [{ content: pdfBase64, name: `Contrat_Hypnosense_${nom}_${prenom}.pdf` }]
+      })
+    });
+
+    btn.textContent = 'Redirection vers le paiement…';
+
+    // Redirection Stripe
+    const stripeUrl = getStripeUrl();
+    if (stripeUrl) {
+      // Passer les infos en paramètres pour la page de confirmation
+      const confirmParams = new URLSearchParams({
+        prenom, email,
+        offre: offreData.label || '',
+        session: sessionLabel,
+        success_url: window.location.origin + '/confirmation-hypnosense.html'
+      });
+      // Stripe redirige vers success_url après paiement
+      // On redirige vers Stripe maintenant
+      setTimeout(() => { window.location.href = stripeUrl; }, 1200);
+    } else {
+      // Pas de lien Stripe (virement/wero/chèques)
+      btn.textContent = '✓ Contrat envoyé';
+      setTimeout(() => { window.location.href = 'confirmation-hypnosense.html?prenom=' + encodeURIComponent(prenom) + '&mode=manuel'; }, 1200);
+    }
+
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'Valider et procéder au paiement →';
+    showErr('Une erreur est survenue. Contactez directement hypnosensepdc@gmail.com ou le 06 49 80 37 27.');
+  }
+}
+</script>
+</body>
+</html>

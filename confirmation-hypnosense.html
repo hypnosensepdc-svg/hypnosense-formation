@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription confirmée — Hypnosense Formation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --cyan: #38C6E8; --navy: #1A2B7A; --navy-deep: #0F1A4E; --white: #FFFFFF; --off-white: #F7FAFC; --grey-light: #E8EDF5; --grey-text: #6B7A99; --cyan-light: rgba(56,198,232,0.10); --cyan-mid: rgba(56,198,232,0.30); --success: #38A169; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--off-white); color: var(--navy); min-height: 100vh; display: flex; flex-direction: column; }
+  .page { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+  .card { background: #fff; border-radius: 20px; border: 1px solid var(--grey-light); padding: 48px 40px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 4px 32px rgba(26,43,122,0.10); }
+  .check-circle { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #38A169, #2F855A); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .check-circle svg { width: 36px; height: 36px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .brand { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px,4vw,34px); font-weight: 400; color: var(--navy); margin-bottom: 8px; line-height: 1.2; }
+  h1 span { color: var(--cyan); font-style: italic; }
+  .subtitle { font-size: 15px; color: var(--grey-text); margin-bottom: 32px; line-height: 1.6; }
+  .steps { text-align: left; background: var(--off-white); border-radius: 12px; padding: 24px; margin-bottom: 28px; }
+  .step { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; }
+  .step:not(:last-child) { border-bottom: 1px solid var(--grey-light); }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-text strong { display: block; font-size: 13px; color: var(--navy); margin-bottom: 2px; }
+  .step-text span { font-size: 12px; color: var(--grey-text); line-height: 1.5; }
+  .alert-box { background: var(--cyan-light); border: 1px solid var(--cyan-mid); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--navy); line-height: 1.6; margin-bottom: 24px; text-align: left; }
+  .alert-box strong { color: var(--navy); }
+  .btn-site { display: inline-block; background: linear-gradient(135deg, var(--cyan), #1A9AB8); color: #fff; text-decoration: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+  .btn-site:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(56,198,232,0.3); }
+  .mode-manuel { background: #FFF8E1; border: 1px solid #FFE082; border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #7B5800; margin-bottom: 24px; text-align: left; line-height: 1.6; }
+  footer { text-align: center; padding: 20px; font-size: 11px; color: var(--grey-text); }
+  footer a { color: var(--cyan); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+    <div class="check-circle">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="brand">Hypnosense Formation</div>
+    <h1>Votre inscription est <span>confirmée</span> !</h1>
+    <p class="subtitle" id="subtitle">Merci pour votre confiance. Voici ce qui se passe maintenant.</p>
+
+    <div id="bloc-manuel" class="mode-manuel" style="display:none">
+      <strong>Paiement par virement / Wero / chèques</strong><br>
+      Vous avez choisi un paiement hors ligne. Richard Fontenay vous contactera dans les 48h pour vous transmettre les coordonnées bancaires ou les modalités de remise des chèques.
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Contrat reçu par email</strong>
+          <span>Votre contrat de formation en PDF a été envoyé à votre adresse email. Vérifiez vos courriers indésirables si nécessaire.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" id="step2-num">2</div>
+        <div class="step-text" id="step2-text">
+          <strong>Paiement enregistré</strong>
+          <span>Votre paiement Stripe a été traité. Vous recevrez un reçu par email de la part de Stripe.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Informations pratiques</strong>
+          <span>Les informations pratiques (adresse, horaires, matériel) vous seront transmises par email avant le début de la formation.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-box">
+      <strong>Vous n'avez pas reçu votre contrat ?</strong><br>
+      Vérifiez vos spams. Si vous ne trouvez rien sous 48h, contactez Richard directement :<br>
+      📧 <a href="mailto:hypnosensepdc@gmail.com" style="color:var(--navy);font-weight:600">hypnosensepdc@gmail.com</a> &nbsp;|&nbsp; 📞 <a href="tel:0649803727" style="color:var(--navy);font-weight:600">06 49 80 37 27</a>
+    </div>
+
+    <a href="https://hypnosense.fr" class="btn-site">Retour sur hypnosense.fr</a>
+  </div>
+</div>
+
+<footer>
+  <p>Richard Fontenay – Hypnosense | <a href="mailto:hypnosensepdc@gmail.com">hypnosensepdc@gmail.com</a> | 06 49 80 37 27</p>
+</footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const prenom = params.get('prenom');
+  const mode = params.get('mode');
+
+  if (prenom) {
+    document.getElementById('subtitle').textContent = `Merci ${prenom} pour votre confiance. Voici ce qui se passe maintenant.`;
+  }
+
+  if (mode === 'manuel') {
+    document.getElementById('bloc-manuel').style.display = 'block';
+    document.getElementById('step2-num').textContent = '2';
+    document.getElementById('step2-text').innerHTML = '<strong>Paiement à convenir</strong><span>Richard vous contactera sous 48h pour finaliser les modalités de règlement.</span>';
+  }
+</script>
+</body>
+</html>
