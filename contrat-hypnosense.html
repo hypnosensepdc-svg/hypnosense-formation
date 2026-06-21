@@ -415,7 +415,7 @@ Date : ${dateInscription}`;
       });
       // Stripe redirige vers success_url après paiement
       // On redirige vers Stripe maintenant
-      setTimeout(() => { window.location.href = stripeUrl; }, 1200);
+      setTimeout(() => { window.location.href = stripeUrl + '?client_reference_id=' + offreKey + '_' + sessionKey; }, 1200);
     } else {
       // Pas de lien Stripe (virement/wero/chèques)
       btn.textContent = '✓ Contrat envoyé';
